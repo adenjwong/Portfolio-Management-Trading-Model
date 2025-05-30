@@ -29,7 +29,6 @@ eval_cb = EvalCallback(
 )
 
 # === Initialize model ===
-# Removed tensorboard logging to avoid requiring tensorboard package
 model = SAC(
     policy="MlpPolicy",
     env=vec_env,
