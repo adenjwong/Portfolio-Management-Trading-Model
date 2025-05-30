@@ -1,14 +1,15 @@
 import yfinance as yf
 import pandas as pd
+from datetime import date
 
 # 1. Pick your assets and date range
-# Expand to 15 well-known tickers in the S&P 500
+# Update tickers to include your desired assets
 tickers = [
     "AAPL",  # Apple
     "MSFT",  # Microsoft
     "GOOG",  # Alphabet (Class C)
     "AMZN",  # Amazon
-    "META",  # Meta Platforms (formerly FB)
+    "META",  # Meta Platforms
     "TSLA",  # Tesla
     "BRK-B", # Berkshire Hathaway (Class B)
     "JNJ",   # Johnson & Johnson
@@ -21,9 +22,10 @@ tickers = [
     "NFLX"   # Netflix
 ]
 start_date = "2018-01-01"
-end_date   = "2023-12-31"
+# 2. Automatically set end_date to today's date
+end_date = date.today().isoformat()
 
-# 2. Download daily Adjusted Close prices
+# 3. Download daily Adjusted Close prices
 # Explicitly disable auto_adjust so 'Adj Close' column is included
 data = yf.download(
     tickers,
@@ -32,12 +34,12 @@ data = yf.download(
     auto_adjust=False  # ensure 'Adj Close' is returned
 )["Adj Close"]
 
-# 3. Fill any missing values and drop remaining NaNs
+# 4. Fill any missing values and drop remaining NaNs
 data = data.ffill().dropna()
 
-# 4. Save to CSV for environment ingestion
+# 5. Save to CSV for environment ingestion
 data.to_csv("data.csv")
-print("Saved data.csv with shape:", data.shape)
+print(f"Saved data.csv from {start_date} to {end_date} with shape: {data.shape}")
 
-# 5. Inspect the head of the DataFrame
+# 6. Inspect the head of the DataFrame
 print(data.head())
