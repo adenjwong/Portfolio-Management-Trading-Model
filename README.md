@@ -3,14 +3,15 @@
 A simple reinforcement learning project for portfolio management. This repository contains:
 
 - **`fetch_data.py`**: Downloads historical adjusted-close price data for 15 well-known S&P 500 tickers (2018-01-01 to present) and saves cleaned `data.csv`.
-- **`portfolio_env.py`**: Custom OpenAI Gym environment to simulate portfolio allocation over time with transaction costs.
+- **`portfolio_env.py`**: Custom OpenAI Gym environment to simulate portfolio allocation over time with transaction costs.
 - **`train.py`**: Trains a Soft Actor-Critic (SAC) agent on `PortfolioEnv`, with checkpointing and evaluation callbacks.
+- **`evaluate.py`**: Evaluates a trained model on a hold-out test set and plots equity curves vs. a buy-and-hold benchmark.
 - **`.gitignore`**: Excludes Conda environments, caches, and temporary files.
 
 ## Prerequisites
 
 - **Conda** (or Miniconda).
-- **Python 3.9**.
+- **Python 3.9**.
 
 ## Setup
 
@@ -31,7 +32,7 @@ Run the data-fetch script:
 python fetch_data.py
 ```
 - Generates `data.csv` with price history.
-- Prints its shape and head.
+- Prints its shape and first few rows.
 
 ## Portfolio Environment
 
@@ -44,7 +45,7 @@ from portfolio_env import PortfolioEnv
 prices = pd.read_csv("data.csv", index_col=0, parse_dates=True)
 # 10-day window example
 env = PortfolioEnv(prices, window_size=10)
-obs = env.reset()
+env.reset()
 EOF
 ```
 
@@ -62,7 +63,7 @@ obs = env.reset()
 for i in range(5):
     action = env.action_space.sample()
     obs, reward, done, info = env.step(action)
-    print(f"Step {i+1}: Reward={reward:.4f}, Value={info['portfolio_value']:.4f}")
+    print(f"Step {i+1}: Reward={reward:.4f}, Portfolio Value={info['portfolio_value']:.4f}")
     if done: break
 EOF
 ```
@@ -77,12 +78,21 @@ python train.py
 - Best model stored under `./models/best/`.
 - Final model at `./models/sac_portfolio_final.zip`.
 
+## Evaluation
+
+After training, evaluate performance on a hold-out test set:
+```bash
+python evaluate.py
+```
+- Plots the RL agent’s equity curve vs. a buy-and-hold baseline.
+
 ## Project Structure
 
 ```text
 ├── fetch_data.py      # Data downloader
 ├── portfolio_env.py   # Gym environment
 ├── train.py           # Training script
+├── evaluate.py        # Evaluation script
 ├── data.csv           # Downloaded price data
 ├── models/            # Checkpoints and saved models
 ├── logs/              # Evaluation logs
@@ -93,6 +103,5 @@ python train.py
 ## Next Steps
 
 - Tune hyperparameters (window size, learning rate, batch size).
-- Add/replace tickers or include technical indicators.
-- Implement `evaluate.py` to compare agent vs. buy-and-hold.
-- Experiment with other RL algorithms (PPO, TD3).
+- Add/replace tickers or include technical indicators (e.g., moving averages, RSI).
+- Compare other RL algorithms (PPO, TD3) and reward structures (risk constraints).
