@@ -111,7 +111,7 @@ Cumulative Return: 27.11%
 Maximum Drawdown: 25.42%  
 Volatility (std of log returns): 0.0190
 
-![RL Agent vs. Buy & Hold Performance](RL Agent vs. Buy & Hold Performance.png)
+![RL Agent vs. Buy & Hold Performance](rl_agent_vs_buy_hold.png)
 
 **Interpretation:**
 
