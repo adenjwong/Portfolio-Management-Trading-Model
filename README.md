@@ -2,7 +2,7 @@
 
 A simple reinforcement learning project for portfolio management. This repository contains:
 
-- **`fetch_data.py`**: Downloads historical adjusted-close price data for 15 well-known S&P 500 tickers (2018-01-01 to present) and saves cleaned `data.csv`.
+- **`fetch_data.py`**: Downloads historical adjusted-close price data for 15 well-known S&P 500 tickers (default: 2015-01-01 to present) and saves cleaned `data.csv`.
 - **`portfolio_env.py`**: Custom OpenAI Gym environment to simulate portfolio allocation over time with transaction costs.
 - **`train.py`**: Trains a Soft Actor-Critic (SAC) agent on `PortfolioEnv`, with checkpointing and evaluation callbacks.
 - **`evaluate.py`**: Evaluates a trained model on a hold-out test set and plots equity curves vs. a buy-and-hold benchmark and computing key performance metrics.
