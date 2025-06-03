@@ -3,7 +3,7 @@
 A simple reinforcement learning project for portfolio management. This repository contains:
 
 - **`fetch_data.py`**: Downloads historical adjusted-close price data for 15 well-known S&P 500 tickers (default: 2015-01-01 to present) and saves cleaned `data.csv`.
-- **`portfolio_env.py`**: Custom OpenAI Gym environment to simulate portfolio allocation over time with transaction costs.
+- **`portfolio_env.py`**: Custom OpenAI Gym environment to simulate portfolio allocation over time with transaction costs.
 - **`train.py`**: Trains a Soft Actor-Critic (SAC) agent on `PortfolioEnv`, with checkpointing and evaluation callbacks.
 - **`evaluate.py`**: Evaluates a trained model on a hold-out test set and plots equity curves vs. a buy-and-hold benchmark and computing key performance metrics.
 - **`.gitignore`**: Excludes Conda environments, caches, and temporary files.
@@ -48,7 +48,7 @@ from portfolio_env import PortfolioEnv
 prices = pd.read_csv("data.csv", index_col=0, parse_dates=True)
 # 10-day window example
 env = PortfolioEnv(prices, window_size=10)
-env.reset()
+obs = env.reset()
 EOF
 ```
 
@@ -95,6 +95,7 @@ python evaluate.py
 ```
 
 This script:
+
 1. Loads the last ~250 trading days of `data.csv`.
 2. Instantiates `PortfolioEnv` with a 50-day window.
 3. Loads the best SAC model from `./models/best/best_model.zip`.
@@ -107,31 +108,33 @@ This script:
 
 ### Example Output
 
-Cumulative Return: 27.11%  
-Maximum Drawdown: 25.42%  
-Volatility (std of log returns): 0.0190
+Cumulative Return: 47.01%  
+Maximum Drawdown: 26.17%  
+Volatility (std of log returns): 0.0219
 
 ![RL Agent vs. Buy & Hold Performance](rl_agent_vs_buy_hold.png)
 
 **Interpretation:**
 
-- The SAC agent achieved a 27% gain over the test window, while buy-and-hold lost ~10%.
-- Although the agent experienced a 25% drawdown, it rebounded quickly, protecting downside relative to buy-and-hold.
-- Volatility of ~1.9% per step indicates moderate risk-taking.
+- The SAC agent achieved a 47% gain over the test window, while buy-and-hold delivered modest gains of around 17%.
+- Although the agent experienced a 26% drawdown, it rapidly recovered, providing strong downside protection compared to buy-and-hold.
+- Volatility of ~2.19% per step indicates measured risk-taking balanced with high returns.
 
 ## Results & Analysis
 
 1. **Early Outperformance (Steps 0–100)**  
-   - Agent rises to ~1.30× normalized value vs. buy-and-hold ~1.15×, suggesting good asset rotation.  
+   - The agent climbs to ~1.42× normalized value (~42% gain), while buy-and-hold reaches ~1.17× (~17%).
 2. **Mid‑Period Drawdown (Steps 100–160)**  
-   - Drawdown from ~1.30× to ~1.10×; buy-and-hold fell deeper to ~0.98×. Agent protected capital better.  
+   - Agent dips from ~1.44× to ~1.19× (≈17% drawdown); buy-and-hold drops from ~1.11× to ~0.95× (≈14% drawdown).  
+   - The agent still protects capital better, recovering faster than the static portfolio.
 3. **Recovery & Late‑Period Gains (Steps 160–200)**  
-   - Strong rebound to ~1.27× vs. buy-and-hold stuck at ~0.90×. Agent re-entered appreciating assets faster.
+   - Strong rebound to ~1.48× by step 200 (~48% total), whereas buy-and-hold finishes below 1.00× (~9% loss).  
+   - The agent’s tactical reallocation outpaces buy-and-hold in downturns and upswings.
 
 **Key Metrics:**
-- Cumulative Return: 27.11%  
-- Maximum Drawdown: 25.42%  
-- Volatility: 1.90%
+- Cumulative Return: 47.01%  
+- Maximum Drawdown: 26.17%  
+- Volatility: 2.19%
 
 ## Project Structure
 
