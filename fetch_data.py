@@ -21,7 +21,7 @@ tickers = [
     "NVDA",  # NVIDIA
     "NFLX"   # Netflix
 ]
-start_date = "2018-01-01"
+start_date = "2015-01-01"
 # 2. Automatically set end_date to today's date
 end_date = date.today().isoformat()
 
