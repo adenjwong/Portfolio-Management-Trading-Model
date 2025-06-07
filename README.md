@@ -124,7 +124,7 @@ Volatility (std of log returns): 0.0219
 1. **Early Outperformance (Steps 0–100)**  
    - The agent climbs to ~1.42× normalized value (~42% gain), while buy-and-hold reaches ~1.17× (~17%).
 2. **Mid‑Period Drawdown (Steps 100–160)**  
-   - Agent dips from ~1.44× to ~1.19× (≈17% drawdown); buy-and-hold drops from ~1.11× to ~0.95× (≈14% drawdown).  
+   - Agent dips from ~1.44× to ~1.19× (≈17% drawdown), buy-and-hold drops from ~1.11× to ~0.95× (≈14% drawdown).  
    - The agent still protects capital better, recovering faster than the static portfolio.
 3. **Recovery & Late‑Period Gains (Steps 160–200)**  
    - Strong rebound to ~1.48× by step 200 (~48% total), whereas buy-and-hold finishes below 1.00× (~9% loss).  
