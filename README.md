@@ -1,4 +1,4 @@
-# Portfolio-Management-Trading-Model
+# Portfolio Management Trading Model
 
 A simple reinforcement learning project for portfolio management. This repository contains:
 
